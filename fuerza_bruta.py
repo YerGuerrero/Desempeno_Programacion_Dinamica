@@ -1,22 +1,25 @@
-from operator import itemgetter
+cont=0
+mejorMochila=[]
+mejorValor=0
 
-get_peso = itemgetter(1)
-get_valor = itemgetter(2)
+def fuerza_bruta(pesoMaximo, listaPesos, listasGanancias, n):
+    global cont
+    mochilaActual = []
 
-def total_peso(paquetes):
-    return sum(get_peso(x) for x in paquetes)
+    if n == 0 or pesoMaximo == 0:
+        return 0
 
-def total_valor(paquetes):
-    return sum(get_valor(x) for x in paquetes)
+    if (listaPesos[n - 1] > pesoMaximo):
+        cont += 1
+        return fuerza_bruta(pesoMaximo, listaPesos, listasGanancias, n - 1)
 
-def combinaciones(paquetes, peso_maximo):
-    paquete = [ p for p in paquetes if get_peso(p) <= peso_maximo ]
-    resultado = []
-    for p in paquete:
-        res = combinaciones([x for x in paquete if x!=p], peso_maximo - get_peso(p))
-        if len(res) == 0:
-            resultado.append([p])
-        else:
-            resultado.extend([[p]+x for x in res])
-    return resultado
-
+    else:
+        cont+=1
+        mochilaActual.append(cont)
+        m=max(
+            listasGanancias[n - 1] + fuerza_bruta(
+                pesoMaximo - listaPesos[n - 1], listaPesos, listasGanancias, n - 1),
+            fuerza_bruta(pesoMaximo, listaPesos, listasGanancias, n - 1))
+        mejorMochila=mochilaActual
+        print(mejorMochila)
+        return m
