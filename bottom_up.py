@@ -1,7 +1,9 @@
+
+# Se encarga de resolver el problema de la mochila con el método bottom up
+
 def bottom_up(pesoMaximo, listaPesos, listasGanancias, n):
     matriz = [[0 for x in range(pesoMaximo + 1)] for x in range(n + 1)]
 
-    # Build table K[][] in bottom up manner
     for i in range(n + 1):
         for j in range(pesoMaximo + 1):
             if i == 0 or j == 0:
@@ -12,4 +14,5 @@ def bottom_up(pesoMaximo, listaPesos, listasGanancias, n):
                               matriz[i - 1][j])
             else:
                 matriz[i][j] = matriz[i - 1][j]
+    print (matriz)
     return matriz[n][pesoMaximo]

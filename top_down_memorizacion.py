@@ -1,8 +1,10 @@
 
+# Se encarga de resolver el problema de la mochila con el método top down
 def top_down(pesoMaximo, listaPesos, listasGanancias, n):
     mem = [[-1 for i in range(pesoMaximo + 1)] for j in range(n + 1)]
     return top_down_aux(mem, listaPesos, listasGanancias, pesoMaximo, n)
 
+# Función que mantiene la recursión
 def top_down_aux(mem, listaPesos, listasGanancias, pesoMaximo, n):
 
     if n == 0 or pesoMaximo == 0:
