@@ -107,17 +107,3 @@ def algoritmo(numAlgoritmo):
 
 
 main()
-
-
-
-
-
-#gold = [[1, 3, 1, 5],
- #       [2, 2, 4, 1],
-  #      [5, 0, 2, 3],
-   #     [0, 6, 1, 2]]
-
-#m = 4
-#n = 4
-
-#print(getMaxGold(gold, m, n))
