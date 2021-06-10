@@ -3,36 +3,33 @@ import random
 import sys
 import time
 
-import bottom_up as bottomUp
-import fuerza_bruta as fuerzaBruta
-import top_down_memorizacion as topDown
 
-global pesoMaximo
+import minaOroFuerzaBruta as minaOroFuerzaBruta
+import minaOroDinamico as minaOroDinamico
+
 global cantElementos
 numIteraciones = 0
-listaPesos = []
-listasGanancias = []
-listaTiempos = []
+filas =0
+columnas=0
+matriz=[]
+listaColumnas=[]
+listaTiempos=[]
 
 
 # Se encarga de leer el archivo y guardar los datos para mandarlos a procesar
 def leerArchivo(nombreArchivo):
     f = open(nombreArchivo, 'r')
-    global pesoMaximo, listaPesos, listasGanancias
-    pesoMaximo = 0
+    global matriz,filas,columnas
     archivo = f.readlines()
-    pesoMaximo = archivo[0]
-    datos = []
-    for linea in range(len(archivo)):
-        lineaSeparada = archivo[linea].split('\n')
-        datos.append(lineaSeparada[0].split(','))
-
-    for i in range(len(datos)):
-        if i == 0:
-            pesoMaximo = int(datos[0][0])
-        else:
-            listaPesos.append(int(datos[i][0]))
-            listasGanancias.append(int(datos[i][1]))
+    filas=len(archivo)
+    for i in range(0,len(archivo)):
+        lineaSeparada = []
+        linea = archivo[i].split('\n')
+        n=linea[0].split(',')
+        for j in n :
+            lineaSeparada.append(int(j))
+        matriz.append(lineaSeparada)
+    columnas=len(lineaSeparada)
     f.close()
     return
 
@@ -55,40 +52,39 @@ def main():
 # Se encarga de procesar la entrada cuando se recibe el parametro -p
 # Crea un problema aleatorio
 def aleatorio():
-    global pesoMaximo, cantElementos, numIteraciones
-    pesoMaximo = int(sys.argv[3])
-    cantElementos = int(sys.argv[4])
-    rangoPesos = sys.argv[5]
-    rangoGanancias = sys.argv[6]
+    global numIteraciones,filas,columnas
+    filas = int(sys.argv[3])
+    columnas = int(sys.argv[4])
+    minValorOro = int(sys.argv[5])
+    maxValorOro = int(sys.argv[6])
     numIteraciones = int(sys.argv[7])
-    listRangosPeso = rangoPesos.split('-')
-    listRangosGanancias = rangoGanancias.split('-')
-    for i in range(0, cantElementos):
-        listaPesos.append(random.randint(int(listRangosPeso[0]), int(listRangosPeso[1])))  # Mete cada uno de los pesos random a la lista de pesos
-        listasGanancias.append(random.randint(int(listRangosGanancias[0]), int(listRangosGanancias[1])))  # Mete cada uno de las ganancias random a la lista de ganancias
+
+    for i in range(0, filas):
+        listaColumnas=[]
+        for j in range(0,columnas):
+            listaColumnas.append(random.randint(minValorOro, maxValorOro))  # Mete cada uno de los costos random a la lista de columnas
+        matriz.append(listaColumnas)
 
 
 # Se encarga de procesar la entrada cuando se recibe el parametro -a
 # Se manda a llamar la función leer archivo
 def archivo():
-    global cantElementos, numIteraciones
+    global numIteraciones
     nombreArchivo = sys.argv[3]
     numIteraciones = int(sys.argv[4])
     leerArchivo(nombreArchivo)
-    cantElementos = len(listasGanancias)
 
 
 # Se encarga de llamar al algoritmo a utilizar según el numero de algoritmo que le entre en la línea de comando
 # 1 -> Ejecuta la función Fuerza Bruta
-# 2 -> Ejecuta la función Bottom-Up
-# 3 -> Ejecuta la función Top-Down
+# 2 -> Ejecuta la función Dinámica
 def algoritmo(numAlgoritmo):
     global numIteraciones
     if numAlgoritmo == 1:
         print("****** Fuerza Bruta ******")
         while numIteraciones > 0:
             inicio = time.time()
-            print("Beneficio máximo:", fuerzaBruta.fuerza_bruta(pesoMaximo, listaPesos, listasGanancias, cantElementos))
+            print("Oro máximo recolectado",minaOroFuerzaBruta.minaOroFuerzaBruta(matriz,columnas,filas))
             fin = time.time()
             tiempo = fin - inicio  # Duración del algoritmo
             listaTiempos.append(tiempo)
@@ -96,21 +92,10 @@ def algoritmo(numAlgoritmo):
         tiempoPromedio = round(sum(listaTiempos) / len(listaTiempos), 7)  # Tiempo promedio entre todos los tiempo de las ejecuciones del algoritmo
         print("Tiempo Promedio: ", tiempoPromedio)
     elif numAlgoritmo == 2:
-        print("****** Bottom-Up ******")
+        print("****** Dinámico ******")
         while numIteraciones > 0:
             inicio = time.time()
-            print("Beneficio máximo: ", bottomUp.bottom_up(pesoMaximo, listaPesos, listasGanancias, cantElementos))
-            fin = time.time()
-            tiempo = fin - inicio  # Duración del algoritmo
-            listaTiempos.append(tiempo)
-            numIteraciones -= 1
-        tiempoPromedio = round(sum(listaTiempos) / len(listaTiempos), 7)  # Tiempo promedio entre todos los tiempo de las ejecuciones del algoritmo
-        print("Tiempo Promedio: ", tiempoPromedio)
-    elif numAlgoritmo == 3:
-        print("****** Top-Down ******")
-        while numIteraciones > 0:
-            inicio = time.time()
-            print("Beneficio máximo: ", topDown.top_down(pesoMaximo, listaPesos, listasGanancias, cantElementos))
+            print("Oro máximo recolectado ",minaOroDinamico.minaOroDinamico(matriz,filas,columnas))
             fin = time.time()
             tiempo = fin - inicio  # Duración del algoritmo
             listaTiempos.append(tiempo)
@@ -122,3 +107,17 @@ def algoritmo(numAlgoritmo):
 
 
 main()
+
+
+
+
+
+#gold = [[1, 3, 1, 5],
+ #       [2, 2, 4, 1],
+  #      [5, 0, 2, 3],
+   #     [0, 6, 1, 2]]
+
+#m = 4
+#n = 4
+
+#print(getMaxGold(gold, m, n))
