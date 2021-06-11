@@ -1,6 +1,6 @@
 # Se encarga de resolver el problema de la mina de oro con el método dinámico
 def minaOroDinamico(matrizMina, filas,columnas):
-    matrizMaximosCostos=[[0 for i in range(filas)] for j in range(columnas)]
+    matrizMaximosCostos=[[0 for i in range(columnas)] for j in range(filas)]
     for i in range(filas) :
         matrizMaximosCostos[i][0] = matrizMina[i][0]
 

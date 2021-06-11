@@ -6,6 +6,7 @@ import time
 
 import minaOroFuerzaBruta as minaOroFuerzaBruta
 import minaOroDinamico as minaOroDinamico
+import matplotlib.pyplot as plt
 
 global cantElementos
 numIteraciones = 0
@@ -84,7 +85,7 @@ def algoritmo(numAlgoritmo):
         print("****** Fuerza Bruta ******")
         while numIteraciones > 0:
             inicio = time.time()
-            print("Oro máximo recolectado",minaOroFuerzaBruta.minaOroFuerzaBruta(matriz,columnas,filas))
+            print("Oro máximo recolectado",minaOroFuerzaBruta.minaOroFuerzaBruta(matriz,filas,columnas))
             fin = time.time()
             tiempo = fin - inicio  # Duración del algoritmo
             listaTiempos.append(tiempo)
@@ -105,5 +106,9 @@ def algoritmo(numAlgoritmo):
     else:
         return
 
-
+    sizes = list(range(1, numIteraciones + 1))
+    plt.plot(listaTiempos, color='green')
+    plt.ylabel('Time (s)')
+    plt.xlabel('Iteracciones (i)')
+    plt.show()
 main()

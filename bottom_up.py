@@ -14,5 +14,4 @@ def bottom_up(pesoMaximo, listaPesos, listasGanancias, n):
                               matriz[i - 1][j])
             else:
                 matriz[i][j] = matriz[i - 1][j]
-    print (matriz)
     return matriz[n][pesoMaximo]

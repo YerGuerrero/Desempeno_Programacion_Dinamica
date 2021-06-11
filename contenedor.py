@@ -6,6 +6,7 @@ import time
 import bottom_up as bottomUp
 import fuerza_bruta as fuerzaBruta
 import top_down_memorizacion as topDown
+import matplotlib.pyplot as plt
 
 global pesoMaximo
 global cantElementos
@@ -91,9 +92,10 @@ def algoritmo(numAlgoritmo):
             print("Beneficio máximo:", fuerzaBruta.fuerza_bruta(pesoMaximo, listaPesos, listasGanancias, cantElementos))
             fin = time.time()
             tiempo = fin - inicio  # Duración del algoritmo
-            listaTiempos.append(tiempo)
+            listaTiempos.append(round(tiempo,7))
             numIteraciones -= 1
         tiempoPromedio = round(sum(listaTiempos) / len(listaTiempos), 7)  # Tiempo promedio entre todos los tiempo de las ejecuciones del algoritmo
+        print("Lista de tiempos: ", listaTiempos)
         print("Tiempo Promedio: ", tiempoPromedio)
     elif numAlgoritmo == 2:
         print("****** Bottom-Up ******")
@@ -102,9 +104,10 @@ def algoritmo(numAlgoritmo):
             print("Beneficio máximo: ", bottomUp.bottom_up(pesoMaximo, listaPesos, listasGanancias, cantElementos))
             fin = time.time()
             tiempo = fin - inicio  # Duración del algoritmo
-            listaTiempos.append(tiempo)
+            listaTiempos.append(round(tiempo, 7))
             numIteraciones -= 1
         tiempoPromedio = round(sum(listaTiempos) / len(listaTiempos), 7)  # Tiempo promedio entre todos los tiempo de las ejecuciones del algoritmo
+        print("Lista de tiempos: ", listaTiempos)
         print("Tiempo Promedio: ", tiempoPromedio)
     elif numAlgoritmo == 3:
         print("****** Top-Down ******")
@@ -113,12 +116,16 @@ def algoritmo(numAlgoritmo):
             print("Beneficio máximo: ", topDown.top_down(pesoMaximo, listaPesos, listasGanancias, cantElementos))
             fin = time.time()
             tiempo = fin - inicio  # Duración del algoritmo
-            listaTiempos.append(tiempo)
+            listaTiempos.append(round(tiempo,7))
             numIteraciones -= 1
         tiempoPromedio = round(sum(listaTiempos) / len(listaTiempos), 7)  # Tiempo promedio entre todos los tiempo de las ejecuciones del algoritmo
+        print("Lista de tiempos: ", listaTiempos)
         print("Tiempo Promedio: ", tiempoPromedio)
     else:
         return
-
-
+    sizes = list(range(1, numIteraciones + 1))
+    plt.plot(listaTiempos, color='green')
+    plt.ylabel('Time (s)')
+    plt.xlabel('Iteracciones (i)')
+    plt.show()
 main()
